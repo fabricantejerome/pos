@@ -1,0 +1,75 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+Class User extends CI_Controller {
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		$models = ['user_model', 'role_model', 'branch_model'];
+
+		$this->load->model($models);
+
+		$this->load->library('user_agent');
+
+		$this->load->helper('form');
+	}
+
+	public function index()
+	{
+		$data = [
+			'title'    => 'List of User',
+			'content'  => 'users/list_view',
+			'entities' => $this->user_model->fetch()
+		];
+
+		$this->load->view('partials/template', $data);
+	}
+
+	public function create()
+	{
+		$data = [
+			'title'    => 'Create New User',
+			'content'  => 'users/form_view',
+			'roles'    => $this->role_model->fetch(),
+			'branches' => $this->branch_model->fetch()
+		];
+
+		$this->load->view('partials/template', $data);
+	}
+
+	public function store()
+	{
+		$personal = [
+			'fullname'  => strtoupper($this->input->post('fullname')),
+			'gender'    => $this->input->post('gender'),
+			'birthdate' => date('Y-m-d', strtotime($this->input->post('birthdate'))),
+			'address'   => strtoupper($this->input->post('address')),
+			'mobile'    => $this->input->post('mobile')
+		];
+
+		$p_id = $this->user_model->storePersonalInfo($personal);
+
+		$user = [
+			'username' => $this->input->post('username'),
+			'password' => $this->input->post('password'),
+			'email'    => $this->input->post('email'),
+			'p_id'     => $p_id,
+			'b_id'     => $this->input->post('branch')
+		];
+
+		$user_id = $this->user_model->store($user);
+
+		$user_role = [
+			'user_id' => $user_id,
+			'role_id' => $this->input->post('user_type')
+		];
+
+		$this->user_model->storeUserRole($user_role);
+
+		$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Account has been created!</div>");
+
+		redirect(base_url('user'));
+	}
+}
