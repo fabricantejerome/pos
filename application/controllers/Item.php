@@ -10,6 +10,8 @@ Class Item extends CI_Controller {
 		$models = ['items_model', 'category_model'];
 
 		$this->load->model($models);
+
+		$this->twig->addGlobal('session', $this->session);
 	}
 
 	public function index()
