@@ -4,11 +4,10 @@
 		<!-- Sidebar user panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img src="<?= base_url('resources/images/default.png') ?>" class="img-circle" alt="User Image">
-
+				<img src="{{ base_url('resources/images/default.png') }}" class="img-circle" alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p><?= $this->session->userdata('fullname') ?></p>
+				<p>{{ session.userdata.fullname }}</p>
 				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 			</div>
 		</div>
@@ -38,9 +37,10 @@
 					<li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
 				</ul>
 			</li> -->
-			<li class="<?= $this->uri->uri_string() == 'user' ? 'active' : '' ?>"><a href="<?= base_url('user/') ?>"><i class="fa fa-user"></i><span>Users</span></a></li>
-			<li class="<?= $this->uri->uri_string() == 'category' ? 'active' : '' ?>"><a href="<?= base_url('category/') ?>"><i class="fa fa-tag"></i><span>Category</span></a></li>
-			<li class="<?= $this->uri->uri_string() == 'item' ? 'active' : '' ?>"><a href="<?= base_url('item/') ?>"><i class="fa fa-tag"></i><span>Items</span></a></li>
+			<li class="{{ uri.uri_string == 'user' ? 'active' : '' }}"><a href="{{ base_url('user/') }}"><i class="fa fa-user"></i><span>Users</span></a></li>
+			<li class="{{ uri.uri_string == 'category' ? 'active' : '' }}"><a href="{{ base_url('category/') }}"><i class="fa fa-tag"></i><span>Category</span></a></li>
+			<li class="{{ uri.uri_string == 'item' ? 'active' : '' }}"><a href="{{ base_url('item/') }}"><i class="fa fa-tag"></i><span>Items</span></a></li>
+			<li class="{{ uri.uri_string == 'item/upload' ? 'active' : '' }}"><a href="{{ base_url('item/upload') }}"><i class="fa fa-tag"></i><span>Upload</span></a></li>
 		</ul>
 	</section>
 	<!-- /.sidebar -->
