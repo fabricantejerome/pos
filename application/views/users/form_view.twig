@@ -1,11 +1,16 @@
-<!-- Style -->
-<!-- bootstrap datepicker -->
-<link rel="stylesheet" href="<?= base_url('resources/template/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') ?>">
-<!-- iCheck for checkboxes and radio inputs -->
-<link rel="stylesheet" href="<?= base_url('resources/template/AdminLTE-2.4.3/plugins/iCheck/all.css') ?>">
-<!-- Bootstrap Select2 -->
-<link rel="stylesheet" href="<?= base_url('resources/template/AdminLTE-2.4.3/bower_components/select2/dist/css/select2.min.css') ?>">
+{% extends "partials/template.twig" %}
 
+{% block head %}
+	{{ parent() }}
+	<!-- bootstrap datepicker -->
+	<link rel="stylesheet" href="{{ base_url('resources/template/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+	<!-- iCheck for checkboxes and radio inputs -->
+	<link rel="stylesheet" href="{{ base_url('resources/template/AdminLTE-2.4.3/plugins/iCheck/all.css') }}">
+	<!-- Bootstrap Select2 -->
+	<link rel="stylesheet" href="{{ base_url('resources/template/AdminLTE-2.4.3/bower_components/select2/dist/css/select2.min.css') }}">
+{% endblock %}
+
+{% block content %}
 <!-- Main content -->
 <section class="content user-form">
 	<!-- Row -->
@@ -23,7 +28,7 @@
 					<!-- end of box header -->
 
 					<!-- form -->
-					<form role="form" action="<?php echo base_url('user/store') ?>" method="post">
+					<form role="form" action="{{ base_url('user/store') }}" method="post">
 						<!-- box body -->
 						<div class="box-body">
 							<div class="form-group">
@@ -98,18 +103,18 @@
 							<div class="form-group">
 								<label for="user_type">User Type:</label>
 								<select class="select2 form-control" name="user_type" required>
-									<?php foreach($roles as $role): ?>
-										<option value="<?php echo $role->id ?>"><?php echo $role->name ?></option>
-									<?php endforeach ?>
+									{% for role in roles %}
+										<option value="{{ role.id }}">{{ role.name }}</option>
+									{% endfor %}
 								</select>
 							</div>
 
 							<div class="form-group">
 								<label for="branch">Branch:</label>
 								<select class="select2 form-control" name="branch" required>
-									<?php foreach($branches as $branch): ?>
-										<option value="<?php echo $branch->id ?>"><?php echo $branch->name ?></option>
-									<?php endforeach ?>
+									{% for branch in branches %}
+										<option value="{{ branch.id }}">{{ branche.name }}</option>
+									{% endfor %}
 								</select>
 							</div>
 							
@@ -133,40 +138,45 @@
 	<!-- End of row -->
 </section>
 <!-- End of main content -->
-<!-- Select2 -->
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/bower_components/select2/dist/js/select2.full.min.js') ?>"></script>
-<!-- Datepicker -->
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') ?>"></script>
-<!-- iCheck 1.0.1 -->
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/plugins/iCheck/icheck.min.js') ?>"></script>
-<!-- InputMask -->
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.js') ?>"></script>
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.date.extensions.js') ?>"></script>
-<script src="<?= base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.extensions.js') ?>"></script>
+{% endblock %}
 
-<script type="text/javascript">
-	var UserForm = (function() {
-		var init = function() {
-			var birthdate = $('#birthdate');
-			var gender    = $('.gender');
-			var mobile    = $('#mobile').inputmask();
-			var select2   = $('.select2').select2();
+{% block script %}
+	{{ parent() }}
+	<!-- Select2 -->
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+	<!-- Datepicker -->
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+	<!-- iCheck 1.0.1 -->
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/plugins/iCheck/icheck.min.js') }}"></script>
+	<!-- InputMask -->
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.js') }}"></script>
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+	<script src="{{ base_url('resources/template/AdminLTE-2.4.3/plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
 
-			birthdate.datepicker();
-			gender.iCheck({
-				checkboxClass: 'icheckbox_minimal-blue',
-				radioClass   : 'iradio_minimal-blue'
-			});
-		}
+	<script type="text/javascript">
+		var UserForm = (function() {
+			var init = function() {
+				var birthdate = $('#birthdate');
+				var gender    = $('.gender');
+				var mobile    = $('#mobile').inputmask();
+				var select2   = $('.select2').select2();
 
-		return {
-			getInstance: function() {
-				init();
+				birthdate.datepicker();
+				gender.iCheck({
+					checkboxClass: 'icheckbox_minimal-blue',
+					radioClass   : 'iradio_minimal-blue'
+				});
 			}
-		}
-	})();
 
-	$(document).ready(function() {
-		UserForm.getInstance();
-	});
-</script>
+			return {
+				getInstance: function() {
+					init();
+				}
+			}
+		})();
+
+		$(document).ready(function() {
+			UserForm.getInstance();
+		});
+	</script>
+{% endblock %}
