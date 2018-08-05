@@ -33,12 +33,11 @@ Class User extends CI_Controller {
 	{
 		$data = [
 			'title'    => 'Create New User',
-			'content'  => 'users/form_view',
 			'roles'    => $this->role_model->fetch(),
 			'branches' => $this->branch_model->fetch()
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('users/form_view', $data);
 	}
 
 	public function store()
