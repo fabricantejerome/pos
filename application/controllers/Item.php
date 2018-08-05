@@ -18,22 +18,20 @@ Class Item extends CI_Controller {
 	{
 		$data = [
 			'title'    => 'List of Products',
-			'content'  => 'items/list_view',
 			'entities' => $this->items_model->fetch()
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('items/list_view', $data);
 	}
 
 	public function create()
 	{
 		$data = [
 			'title'      => 'Create New Product',
-			'content'    => 'items/form_view',
 			'categories' => $this->category_model->fetch()
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('items/form_view', $data);
 	}
 
 	public function store()
