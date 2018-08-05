@@ -22,12 +22,11 @@ Class User extends CI_Controller {
 	public function index()
 	{
 		$data = [
-			'title'    => 'List of User',
-			'content'  => 'users/list_view',
+			'title'    => 'List of Users',
 			'entities' => $this->user_model->fetch()
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('users/list_view', $data);
 	}
 
 	public function create()
