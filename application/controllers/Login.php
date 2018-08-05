@@ -8,6 +8,8 @@ class Login extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('user_model');
+		$this->load->helper('form');
+		$this->twig->addGlobal('session', $this->session);
 	}
 
 	public function index()
