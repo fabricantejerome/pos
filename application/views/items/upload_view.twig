@@ -1,0 +1,177 @@
+{% extends "partials/template.twig" %}
+
+{% block content %}
+	<section class="content upload">
+		<!-- row -->
+		<div class="row" id="app">
+			<!-- col-md-8 -->
+			<div class="col-md-12">
+				<!-- box -->
+				<div class="box box-default">
+					<!-- header -->
+					<div class="box-header">
+						<!-- form -->
+						<form method="post" enctype="multipart/form-data" v-on:submit.prevent="storeResource" role="form" id="form">
+							<div class="row">
+								<!-- file-upload -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="file-upload">Upload Spreadsheet</label>
+										<input type="file" name="file-upload" v-model="fileUpload" ref="fileUpload" id="file-upload" accept=".xlsx, .xls, .csv">
+									</div>
+								</div>
+								<!-- ./file-upload -->
+
+								<div class="col-md-2">
+									<div class="form-group">
+										<label> </label>
+										<input type="submit" name="update" value="Upload" ref="update" class="btn bg-purple btn-flat form-control">
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- ./form -->
+					</div>
+					<!-- ./header -->
+
+					<!-- content -->
+					<div class="box-body">
+						 <!-- Item table -->
+						 <table class="table table-condensed table-striped table-bordered">
+						 	<thead>
+						 		<tr>
+						 			<th>Product Line</th>
+						 			<th>Style Number</th>
+						 			<th>Size</th>
+						 			<th>Color</th>
+						 			<th>Quantity</th>
+						 			<th>Price</th>
+						 			<th>Category</th>
+						 		</tr>
+						 	</thead>
+
+						 	<tbody>
+						 		<tr v-for="(item, index) in excelObject">
+						 			<td>${ item['PRODUCT LINE'] }</td>
+						 			<td>${ item['STYLE NUMBER'] }</td>
+						 			<td>${ item['SIZE'] }</td>
+						 			<td>${ item['COLOR'] }</td>
+						 			<td>${ item['QUANTITY'] }</td>
+						 			<td>${ item['PRICE'] }</td>
+						 			<td>${ item['CATEGORY'] }</td>
+						 		</tr>
+						 	</tbody>
+						 </table>
+						 <!-- End of table -->
+					</div>
+					<!-- ./content -->
+				</div>
+				<!-- ./box -->
+			</div>
+			<!-- ./col-md-8 -->
+		</div>
+		<!-- ./row -->
+	</section>
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="myModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	{{ parent() }}
+	<script src="{{ base_url('resources/js/axios/axios.min.js') }}"></script>
+	<script src="{{ base_url('resources/js/vue/vue.min.js') }}"></script>
+	<script src="{{ base_url('resources/js/lodash/lodash.js') }}"></script>
+	<script src="{{ base_url('resources/js/js-xlsx/cpexcel.js') }}"></script>
+	<script src="{{ base_url('resources/js/js-xlsx/xlsx.js') }}"></script>
+	<script src="{{ base_url('resources/js/js-xlsx/jszip.js') }}"></script>
+	<script src="{{ base_url('resources/js/js-xlsx/xlsx.full.min.js') }}"></script>
+
+	<script type="text/javascript">
+		var appUrl = "{{ base_url() }}";
+		var tmUrl  = "{{ base_url('resources/images/') }}";
+
+		var app = new Vue({
+			delimiters: ['${', '}'],
+			el: '#app',
+			data: {
+				excelObject: [],
+				fileUpload: '',
+			},
+			watch: {
+				excelObject: function() {
+					console.log(this.excelObject)
+				}
+			},
+			mounted() {
+				const self = this
+
+				$(this.$refs.fileUpload).on('change', this.filePicked)
+
+				$(this.$refs.update).on('click', this.showModal)
+			},
+			methods: {
+				filePicked: function(oEvent) {
+					// Get The File From The Input
+					var oFile = oEvent.target.files[0];
+
+					// Create A File Reader HTML5
+					var reader = new FileReader();
+
+					// Ready The Event For When A File Gets Selected
+					reader.onload = (e) => {
+						var data = e.target.result;
+						var wb = XLSX.read(data, {type: 'binary'});
+
+						// Get the last sheet on the excel file
+						var sheetName = wb.SheetNames[0]
+
+						// Reset the element of excel object
+						this.excelObject.splice(0, this.excelObject.length)
+
+						// Assign the json values to excelObject
+						this.excelObject.push(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]))
+
+						// Convert it to linear form
+						this.excelObject = _.flatten(this.excelObject)	
+					};
+
+					// Tell JS To Start Reading The File.. You could delay this if desired
+					reader.readAsBinaryString(oFile);
+				},
+				showModal: function() {
+					$("#myModal").modal({backdrop: 'static', keyboard: false})
+
+					$('#myModal').on('shown.bs.modal', function() {
+						$(this).find('.modal-body').html('<img src="' + tmUrl + 'loading.gif" class="img-responsive"/>')
+					});
+				},
+				storeResource: function() {
+					axios({
+						url: appUrl + '/item/upload_store',
+						method: 'post',
+						data: this.excelObject,
+					})
+					.then((response) => {
+						console.log(response.data)
+						$('#myModal').modal('hide')
+					})
+					.catch((error) => {
+						$('#myModal').modal('hide')
+
+						alert('Invalid file or data');
+
+						console.log(error)
+					});
+				},
+			}
+		});
+	</script>
+{% endblock %}
