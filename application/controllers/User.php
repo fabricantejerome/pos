@@ -14,6 +14,9 @@ Class User extends CI_Controller {
 		$this->load->library('user_agent');
 
 		$this->load->helper('form');
+
+		$this->twig->addGlobal('session', $this->session);
+		$this->twig->addGlobal('uri', $this->uri);
 	}
 
 	public function index()
