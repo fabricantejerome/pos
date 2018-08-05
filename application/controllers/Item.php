@@ -42,4 +42,13 @@ Class Item extends CI_Controller {
 
 		redirect(base_url('item'));
 	}
+
+	public function upload()
+	{
+		$data = array(
+			'title'   => 'Upload Items',
+		);
+
+		$this->twig->display('items/upload_view', $data);
+	}
 }
