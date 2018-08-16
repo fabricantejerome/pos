@@ -26,4 +26,11 @@ class Items_model extends CI_Model {
 		$this->db->insert('items_tbl', $params);
 	}
 
+	public function store_batch($args)
+	{
+		$this->db->insert_batch('items_tbl', $args);
+
+		return $this->db->affected_rows();
+	}
+
 }
