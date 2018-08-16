@@ -51,4 +51,44 @@ Class Item extends CI_Controller {
 
 		$this->twig->display('items/upload_view', $data);
 	}
+
+	public function upload_store()
+	{
+		$data = json_decode(file_get_contents("php://input"));
+
+		// Convert object to array
+		$data = array_map(function($row) {
+			return (array)$row;
+		}, $data);
+
+		// Get the unique category
+		$unique_category = array_unique(array_column($data, 'CATEGORY'));
+
+		// Format category
+		$categories = $this->category_model->whereIn($unique_category);
+
+		$options = [];
+
+		foreach ($categories as $category)
+		{
+			$options[$category->name] = $category->id;
+		}
+
+		$config = [];
+
+		foreach ($data as $row)
+		{
+			$config[] = [
+				'product_line' => $row['PRODUCT LINE'],
+				'style_number' => $row['STYLE NUMBER'],
+				'size'         => $row['SIZE'],
+				'color'        => $row['COLOR'],
+				'quantity'     => $row['QUANTITY'],
+				'price'        => $row['PRICE'],
+				'category_id'  => $options[$row['CATEGORY']]
+			];
+		}
+
+		$this->items_model->store_batch($config);
+	}
 }
