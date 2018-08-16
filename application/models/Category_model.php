@@ -13,6 +13,11 @@ class Category_model extends CI_Model {
 		return $this->db->get('category_tbl')->result();
 	}
 
+	public function read($id)
+	{
+		return $this->db->get_where('category_tbl', array('id' => $id))->row();
+	}
+
 	public function store($params)
 	{
 		$this->db->insert('category_tbl', $params);
