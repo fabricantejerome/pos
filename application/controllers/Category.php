@@ -35,20 +35,37 @@ Class Category extends CI_Controller {
 
 	public function store()
 	{
+
 		$data = [
+			'id'   => $this->input->post('id'),
 			'name' => strtoupper($this->input->post('category'))
 		];
 
 		$this->category_model->store($data);
 
-		$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Category has been created!</div>");
+		if ($this->input->post('id') == 0)
+		{
+			$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Category has been created!</div>");
+		}
+		else
+		{
+			$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Category has been updated!</div>");
+		}
 
 		redirect(base_url('category'));
 	}
 
 	public function edit()
 	{
-		// $this->category_model->delete($this->uri)
+		$id = $this->uri->segment(3) ? $this->uri->segment(3): 0;
+
+		$data = [
+			'title'  => 'Edit category',
+			'entity' => $this->category_model->read($id)
+		];
+
+		$this->twig->display('category/form_view', $data);
+
 	}
 
 	public function delete()
