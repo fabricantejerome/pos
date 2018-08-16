@@ -1,4 +1,6 @@
-<!-- Main content -->
+{% extends "partials/template.twig "%}
+
+{% block content %}
 <section class="content category-form">
 	<!-- Row -->
 	<div class="row">
@@ -9,12 +11,13 @@
 				<!-- Box element -->
 				<div class="box box-default">
 					<!-- form -->
-					<form role="form" action="<?php echo base_url('category/store') ?>" method="post">
+					<form role="form" action="{{ base_url('category/store') }}" method="post">
 						<!-- box body -->
 						<div class="box-body">
 							<div class="form-group">
 								<label for="category">Category:</label>
-								<input type="text" name="category" id="category" class="form-control" placeholder="Enter your category name" required>
+								<input type="hidden" name="id" value="{{ entity.id is defined ? entity.id : 0}}">
+								<input type="text" name="category" id="category" class="form-control" placeholder="Enter your category name" value="{{ entity.name is defined ? entity.name : ''  }}" required>
 							</div>
 						</div>
 						<!-- end of box body -->
@@ -36,3 +39,4 @@
 	<!-- End of row -->
 </section>
 <!-- End of main content -->
+{% endblock %}
