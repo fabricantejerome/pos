@@ -10,11 +10,12 @@ class Items_model extends CI_Model {
 
 	public function fetch()
 	{
-		$fields = ['it.product_line', 'it.style_number', 'it.size', 'it.color', 'it.quantity', 'it.price', 'it.barcode', 'ct.name AS category'];
+		$fields = ['it.id', 'it.product_line', 'it.style_number', 'it.size', 'it.color', 'it.quantity', 'it.price', 'it.barcode', 'ct.name AS category'];
 		
 		$query = $this->db->select($fields)
 				->from('items_tbl AS it')
 				->join('category_tbl AS ct', 'it.category_id = ct.id', 'INNER')
+				->order_by('it.product_line', 'ASC')
 				->get();
 
 		return $query->result();
