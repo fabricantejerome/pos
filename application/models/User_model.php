@@ -31,12 +31,13 @@ class User_model extends CI_Model {
 
 	public function fetch()
 	{
-		$fields = ['ut.username', 'pit.fullname', 'pit.birthdate', 'pit.gender', 'pit.mobile', 'ut.email'];
+		$fields = ['ut.username', 'pit.fullname', 'pit.birthdate', 'pit.gender', 'pit.mobile', 'ut.email', 'bt.name as branch'];
 
 		$query = $this->db->select($fields)->from('users_tbl as ut')
 				->join('personal_info_tbl as pit', 'ut.p_id = pit.id', 'INNER')
 				->join('user_role_tbl as urt', 'urt.user_id = ut.id', 'INNER')
 				->join('roles_tbl AS rt', 'rt.id = urt.role_id', 'INNER')
+				->join('branch_tbl as bt', 'ut.b_id = bt.id', 'INNER')
 				->get();
 
 		return $query->result();
