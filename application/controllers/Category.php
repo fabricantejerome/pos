@@ -10,6 +10,8 @@ Class Category extends CI_Controller {
 		$this->load->model('category_model');
 
 		$this->load->library('user_agent');
+
+		$this->twig->addGlobal('session', $this->session);
 	}
 
 	public function index()
