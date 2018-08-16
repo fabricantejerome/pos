@@ -21,8 +21,6 @@ class Login extends CI_Controller {
 	{
 		$user_data = $this->user_model->authenticate($this->input->post());
 
-		// dd($user_data);
-
 		if ($user_data)
 		{
 			$this->session->set_userdata($user_data);
