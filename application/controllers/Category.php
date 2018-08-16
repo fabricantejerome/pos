@@ -18,21 +18,19 @@ Class Category extends CI_Controller {
 	{
 		$data = [
 			'title'    => 'List of Category',
-			'content'  => 'category/list_view',
 			'entities' => $this->category_model->fetch()
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('category/list_view', $data);
 	}
 
 	public function create()
 	{
 		$data = [
 			'title'   => 'Create new category',
-			'content' => 'category/form_view'
 		];
 
-		$this->load->view('partials/template', $data);
+		$this->twig->display('category/form_view', $data);
 	}
 
 	public function store()
