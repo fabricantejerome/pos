@@ -20,7 +20,15 @@ class Category_model extends CI_Model {
 
 	public function store($params)
 	{
-		$this->db->insert('category_tbl', $params);
+		if ($params['id'] > 0)
+		{
+			$this->db->update('category_tbl', $params, array('id' => $params['id']));
+		}
+		else
+		{
+			unset($params['id']);
+			$this->db->insert('category_tbl', $params);	
+		}
 	}
 
 	public function delete($params)
