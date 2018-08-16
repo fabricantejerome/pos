@@ -35,4 +35,13 @@ class Category_model extends CI_Model {
 	{
 		$this->db->delete('category_tbl', $params);
 	}
+
+	public function whereIn($args)
+	{
+		$query = $this->db->from('category_tbl')
+				->where_in('name', $args)
+				->get();
+
+		return $query->result();
+	}
 }
