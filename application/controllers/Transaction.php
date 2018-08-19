@@ -23,4 +23,34 @@ Class Transaction extends CI_Controller {
 	{
 		$this->output->set_content_type('application/json')->set_output(json_encode($this->items_model->fetch()));
 	}
+
+	public function store()
+	{
+		$data = json_decode(file_get_contents("php://input"), true);
+
+		$trans_id = $this->transaction_model->store($data);
+
+		if ($trans_id > 0)
+		{
+			$items = array();
+
+			foreach ($data['items'] as $row) {
+				$items[] = array(
+					'trans_id' => $trans_id,
+					'item_id'  => $row['id'],
+					'price'    => $row['price'],
+					'quantity' => $row['quantity'],
+					'total'    => $row['total']
+				);
+			}
+
+			$this->transaction_model->storeItems($items);
+
+			echo 'Transaction done successfully';
+		}
+		else
+		{
+			echo 'Transaction failed!';
+		}
+	}
 }
