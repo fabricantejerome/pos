@@ -186,6 +186,11 @@
 						this.updateTotal()
 					}
 				},
+				removeItem(index) {
+					this.cart.splice(index, 1)
+
+					this.updateTotal()
+				},
 				updateItem(index) {
 					this.cart[index].quantity = Number(this.cart[index].quantity) + 1
 
