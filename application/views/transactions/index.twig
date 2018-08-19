@@ -89,8 +89,11 @@
 	<script src="{{ base_url('resources/js/axios/axios.min.js') }}"></script>
 	<script src="{{ base_url('resources/js/vue/vue.min.js') }}"></script>
 	<script src="{{ base_url('resources/js/lodash/lodash.js') }}"></script>
+	<script src="{{ base_url('resources/js/vee-validate/vee-validate.min.js') }}"></script>
 
 	<script type="text/javascript">
+		Vue.use(VeeValidate);
+
 		var appUrl = "{{ base_url() }}";
 
 		var app = new Vue({
