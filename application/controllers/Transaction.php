@@ -21,6 +21,6 @@ Class Transaction extends CI_Controller {
 
 	public function fetchItems()
 	{
-		echo json_encode($this->items_model->fetch());
+		$this->output->set_content_type('application/json')->set_output(json_encode($this->items_model->fetch()));
 	}
 }
