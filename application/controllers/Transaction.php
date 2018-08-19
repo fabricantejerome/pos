@@ -7,7 +7,9 @@ Class Transaction extends CI_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model('items_model');
+		$models = ['items_model', 'transaction_model'];
+
+		$this->load->model($models);
 
 		$this->twig->addGlobal('session', $this->session);
 	}
