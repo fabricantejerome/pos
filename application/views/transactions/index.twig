@@ -197,16 +197,9 @@
 					this.updateRow(index)
 				},
 				updateRow(i) {
-					this.$validator.validateAll()
-					.then((result) => {
-						console.log(result)
-						if (result == true) {
-							this.cart[i].total = Number(this.cart[i].price * this.cart[i].quantity).toFixed(2)
+					this.cart[i].total = Number(this.cart[i].price * this.cart[i].quantity).toFixed(2)
 
-							this.updateTotal();
-						}
-					})
-					
+					this.updateTotal();
 				},
 				updateTotal() {
 					this.totalBill = (_.chain(this.cart).map('total').map(n => parseFloat(n)).sum().value()).toFixed(2)
