@@ -12,6 +12,7 @@ Class Transaction extends CI_Controller {
 		$this->load->model($models);
 
 		$this->twig->addGlobal('session', $this->session);
+		$this->twig->addGlobal('uri', $this->uri);
 	}
 
 	public function index()
@@ -52,5 +53,15 @@ Class Transaction extends CI_Controller {
 		{
 			echo 'Transaction failed!';
 		}
+	}
+
+	public function sales()
+	{
+		$data = [
+			'title'    => 'Sales',
+			'entities' => $this->transaction_model->fetchSales()
+		];
+
+		$this->twig->display('transactions/sales', $data);
 	}
 }
