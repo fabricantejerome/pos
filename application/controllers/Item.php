@@ -12,6 +12,7 @@ Class Item extends CI_Controller {
 		$this->load->model($models);
 
 		$this->twig->addGlobal('session', $this->session);
+		$this->twig->addGlobal('uri', $this->uri);
 	}
 
 	public function index()
