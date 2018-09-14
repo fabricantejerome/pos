@@ -17,6 +17,8 @@ Class User extends CI_Controller {
 
 		$this->twig->addGlobal('session', $this->session);
 		$this->twig->addGlobal('uri', $this->uri);
+
+		$this->_redirectUnauthorized();
 	}
 
 	public function index()
@@ -72,5 +74,14 @@ Class User extends CI_Controller {
 		$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Account has been created!</div>");
 
 		redirect(base_url('user'));
+	}
+
+	protected function _redirectUnauthorized()
+	{
+		if (count($this->session->userdata()) < 3)
+		{
+			$this->session->set_flashdata('message', "<div class='alert alert-warning'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>You don't have permission to access the page!</div>");
+			redirect(base_url());
+		}
 	}
 }
