@@ -46,6 +46,15 @@ Class Item extends CI_Controller {
 		redirect(base_url('item'));
 	}
 
+	public function draft()
+	{
+		$item_id = $this->uri->segment(3);
+
+		$this->items_model->setAsDraft($item_id);
+
+		redirect($this->agent->referrer());
+	}
+
 	public function upload()
 	{
 		$data = array(

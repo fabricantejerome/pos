@@ -18,6 +18,7 @@ class Items_model extends CI_Model {
 					FROM items_tbl AS it 
 					LEFT JOIN transaction_item_tbl AS tit ON it.id = tit.item_id
 					INNER JOIN category_tbl AS ct ON it.category_id = ct.id
+					WHERE it.is_draft = 0
 					GROUP BY it.id, tit.item_id
 					ORDER BY it.product_line");
 
@@ -27,6 +28,11 @@ class Items_model extends CI_Model {
 	public function store($params)
 	{
 		$this->db->insert('items_tbl', $params);
+	}
+
+	public function setAsDraft($args)
+	{
+		$this->db->update('items_tbl', array('is_draft' => 1), array('id' => $args));
 	}
 
 	public function store_batch($args)
