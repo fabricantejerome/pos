@@ -25,7 +25,15 @@ class Login extends CI_Controller {
 		{
 			$this->session->set_userdata($user_data);
 
-			redirect(base_url('user'));
+			if ($this->session->userdata('user_type') == 'Administrator' )
+			{
+				redirect(base_url('user'));
+			}
+			else
+			{
+				redirect(base_url('transaction'));
+			}
+			
 		}
 
 		$this->session->set_flashdata('message', "<div class='alert alert-warning'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>You don't have rights to access this system!</div>");
