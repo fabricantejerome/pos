@@ -10,7 +10,7 @@ class Category_model extends CI_Model {
 
 	public function fetch()
 	{
-		return $this->db->get('category_tbl')->result();
+		return $this->db->get_where('category_tbl', array('is_draft' => 0))->result();
 	}
 
 	public function read($id)
@@ -34,6 +34,11 @@ class Category_model extends CI_Model {
 	public function delete($params)
 	{
 		$this->db->delete('category_tbl', $params);
+	}
+
+	public function draft($params)
+	{
+		$this->db->update('category_tbl', array('is_draft' => 1), $params);
 	}
 
 	public function whereIn($args)

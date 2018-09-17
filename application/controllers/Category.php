@@ -82,6 +82,17 @@ Class Category extends CI_Controller {
 		redirect($this->agent->referrer());
 	}
 
+	public function draft()
+	{
+		$data = ['id' => $this->uri->segment(3)];
+
+		$this->category_model->draft($data);
+
+		$this->session->set_flashdata('message', "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Category has been deleted!</div>");
+
+		redirect($this->agent->referrer());
+	}
+
 	protected function _redirectUnauthorized()
 	{
 		if (count($this->session->userdata()) < 3)
