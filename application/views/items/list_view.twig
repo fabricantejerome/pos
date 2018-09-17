@@ -25,6 +25,7 @@
 									<th>Color</th>
 									<th>Quantity</th>
 									<th>Price</th>
+									<th>Orig. Price</th>
 									<th>Barcode</th>
 									<th>Category</th>
 									<th></th>
@@ -42,6 +43,7 @@
 										<td>{{ entity.color }}</td>
 										<td>{{ entity.quantity }}</td>
 										<td>{{ entity.price }}</td>
+										<td>{{ entity.original_price }}</td>
 										<td>{{ entity.barcode }}</td>
 										<td>{{ entity.category }}</td>
 										<td ><a href="{{ base_url('item/draft/' ~ entity.id) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click to remove this item"><i class="fa fa-times-circle fa-2x text-danger"></i></a></td>

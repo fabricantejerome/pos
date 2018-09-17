@@ -46,6 +46,7 @@
 						 			<th>Color</th>
 						 			<th>Quantity</th>
 						 			<th>Price</th>
+						 			<th>Original Price</th>
 						 			<th>Category</th>
 						 		</tr>
 						 	</thead>
@@ -58,6 +59,7 @@
 						 			<td>${ item['COLOR'] }</td>
 						 			<td>${ item['QUANTITY'] }</td>
 						 			<td>${ item['PRICE'] }</td>
+						 			<td>${ item['ORIGINAL PRICE'] }</td>
 						 			<td>${ item['CATEGORY'] }</td>
 						 		</tr>
 						 	</tbody>
@@ -140,7 +142,7 @@
 						this.excelObject.push(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]))
 
 						// Convert it to linear form
-						this.excelObject = _.flatten(this.excelObject)	
+						this.excelObject = _.flatten(this.excelObject)
 					};
 
 					// Tell JS To Start Reading The File.. You could delay this if desired

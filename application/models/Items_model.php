@@ -10,7 +10,7 @@ class Items_model extends CI_Model {
 
 	public function fetch()
 	{
-		$query = $this->db->query("SELECT it.id, it.product_line, it.style_number, it.size, it.color, it.price, it.barcode,
+		$query = $this->db->query("SELECT it.id, it.product_line, it.style_number, it.size, it.color, it.price, it.original_price, it.barcode,
 					CASE 
 						WHEN SUM(tit.quantity) > 0 THEN it.quantity - SUM(tit.quantity)
 						ELSE it.quantity
