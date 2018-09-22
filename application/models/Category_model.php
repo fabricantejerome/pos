@@ -49,4 +49,21 @@ class Category_model extends CI_Model {
 
 		return $query->result();
 	}
+
+
+	public function storeNotExist($args)
+	{
+		if (count($args))
+		{
+			foreach ($args as $item)
+			{
+				$query = $this->db->get_where('category_tbl', array('name' => $item));
+
+				if ($query->num_rows() == 0)
+				{
+					$this->db->insert('category_tbl', array('name' => $item));
+				} 
+			}
+		}
+	}
 }
