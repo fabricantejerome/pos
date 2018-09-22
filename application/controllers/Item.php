@@ -73,8 +73,13 @@ Class Item extends CI_Controller {
 			return (array)$row;
 		}, $data);
 
+		// Trim
+		$data = array_trim_recursive($data);
+
 		// Get the unique category
 		$unique_category = array_unique(array_column($data, 'CATEGORY'));
+
+		$this->category_model->storeNotExist($unique_category);
 
 		// Format category
 		$categories = $this->category_model->whereIn($unique_category);
@@ -91,13 +96,14 @@ Class Item extends CI_Controller {
 		foreach ($data as $row)
 		{
 			$config[] = [
-				'product_line' => $row['PRODUCT LINE'],
-				'style_number' => $row['STYLE NUMBER'],
-				'size'         => $row['SIZE'],
-				'color'        => $row['COLOR'],
-				'quantity'     => $row['QUANTITY'],
-				'price'        => $row['PRICE'],
-				'category_id'  => $options[$row['CATEGORY']]
+				'product_line'   => $row['PRODUCT LINE'],
+				'style_number'   => $row['STYLE NUMBER'],
+				'size'           => $row['SIZE'],
+				'color'          => $row['COLOR'],
+				'quantity'       => $row['QUANTITY'],
+				'price'          => $row['PRICE'],
+				'original_price' => $row['ORIGINAL PRICE'],
+				'category_id'    => $options[$row['CATEGORY']]
 			];
 		}
 
