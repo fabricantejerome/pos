@@ -59,9 +59,12 @@ class Transaction_Model extends CI_Model {
 
 	public function fetchSales()
 	{
-		$query = $this->db->query('SELECT tit.trans_id, tit.price, tit.quantity, tit.total, tit.created_at, it.product_line
-			FROM transaction_item_tbl AS tit
-			INNER JOIN items_tbl AS it ON tit.item_id= it.id');
+		$query = $this->db->query('SELECT tit.trans_id, tit.price, tit.quantity, tit.total, tit.created_at, it.product_line, pit.fullname as cashier
+					FROM transaction_item_tbl AS tit
+					INNER JOIN items_tbl AS it ON tit.item_id= it.id
+					INNER JOIN transaction_tbl AS tt ON tt.id = tit.trans_id
+					INNER JOIN users_tbl AS ut ON ut.id = tt.cashier_id
+					INNER JOIN personal_info_tbl AS pit ON pit.id = ut.p_id;');
 
 		return $query->result();
 	}

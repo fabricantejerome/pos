@@ -18,6 +18,7 @@
 									<th>Quantity</th>
 									<th>Total</th>
 									<th>Trans Date</th>
+									<th>Cashier</th>
 								</tr>
 							</thead>
 
@@ -30,6 +31,7 @@
 										<td>{{ entity.quantity }}</td>
 										<td>{{ entity.total }}</td>
 										<td>{{ entity.created_at|date('M d, Y h:i a') }}</td>
+										<td>{{ entity.cashier }}</td>
 									</tr>
 								{% endfor %}
 							</tbody>
