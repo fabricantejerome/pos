@@ -37,9 +37,26 @@ class Items_model extends CI_Model {
 
 	public function store_batch($args)
 	{
-		$this->db->insert_batch('items_tbl', $args);
+		if (count($args))
+		{
+			foreach ($args as $row)
+			{
+				$query = $this->db->get_where('items_tbl', array('product_line' => $row['product_line']));
 
-		return $this->db->affected_rows();
+				if ($query->num_rows() > 0)
+				{
+					$data = $query->row_array();
+
+					$row['quantity'] = $row['quantity'] + $data['quantity'];
+
+					$this->db->update('items_tbl', $row, array('id' => $data['id']));
+				}
+				else
+				{
+					$this->db->insert("items_tbl", $row);
+				}
+			}
+		}
 	}
 
 }
