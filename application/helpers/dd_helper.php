@@ -15,3 +15,18 @@ if (!function_exists('dd'))
 		die;
 	}
 }
+
+if (!function_exists('array_trim_recursive'))
+{
+	function array_trim_recursive($data)
+	{
+		$container = array();
+
+		foreach ($data as $row)
+		{
+			$container[] = is_array($row) ? array_map('trim', $row) : trim($row);
+		}
+
+		return $container;
+	}
+}
